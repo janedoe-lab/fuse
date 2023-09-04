@@ -321,34 +321,34 @@ class Fuse extends Nanoresource {
       const opts = self._fuseOptions()
       const implemented = self._getImplementedArray()
 
-      return onexists()
+      if (IS_WIN32) {
+        return domount()
+      }
 
-      // return fs.stat(self.mnt, (err, stat) => {
-      //   if (err && err.errno !== -2) return cb(err)
-      //   if (err) {
-      //     if (!self._mkdir) return cb(new Error('Mountpoint does not exist'))
-      //     return fs.mkdir(self.mnt, { recursive: true }, err => {
-      //       if (err) return cb(err)
-      //       fs.stat(self.mnt, (err, stat) => {
-      //         if (err) return cb(err)
-      //         return onexists(stat)
-      //       })
-      //     })
-      //   }
-      //   if (!stat.isDirectory()) return cb(new Error('Mountpoint is not a directory'))
-      //   return onexists(stat)
-      // })
+      return fs.stat(self.mnt, (err, stat) => {
+        if (err && err.errno !== -2) return cb(err)
+        if (err) {
+          if (!self._mkdir) return cb(new Error('Mountpoint does not exist'))
+          return fs.mkdir(self.mnt, { recursive: true }, err => {
+            if (err) return cb(err)
+            fs.stat(self.mnt, (err, stat) => {
+              if (err) return cb(err)
+              return onexists(stat)
+            })
+          })
+        }
+        if (!stat.isDirectory()) return cb(new Error('Mountpoint is not a directory'))
+        return onexists(stat)
+      })
 
       function onexists (stat) {
-        // fs.stat(path.join(self.mnt, '..'), (_, parent) => {
-        //   if (parent && parent.dev !== stat.dev) return cb(new Error('Mountpoint in use'))
-        //   try {
-        //     // TODO: asyncify
-        //     binding.fuse_native_mount(self.mnt, opts, self._thread, self, self._malloc, self._handlers, implemented)
-        //   } catch (err) {
-        //     return cb(err)
-        //   }
-        // })
+        fs.stat(path.join(self.mnt, '..'), (_, parent) => {
+          if (parent && parent.dev !== stat.dev) return cb(new Error('Mountpoint in use'))
+          return domount()
+        })
+      }
+
+      function domount () {
         try {
           binding.fuse_native_mount(self.mnt, opts, self._thread, self, self._malloc, self._handlers, implemented)
         } catch (err) {
