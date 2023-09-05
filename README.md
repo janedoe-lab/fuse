@@ -26,7 +26,7 @@ See `example.js`.
 
 In order to create a FUSE mountpoint, you first need to create a `Fuse` object that wraps a set of implemented FUSE syscall handlers:
 
-#### `const fuse = new Fuse(mnt, handlers, opts = {})`
+#### `const fuse = new Fuse(mnt, handlers, options = {})`
 
 Create a new `Fuse` object.
 
@@ -36,21 +36,48 @@ Create a new `Fuse` object.
 
 ```js
 {
-  getattr: function (path, cb) {
-    if (path === '/') return process.nextTick(cb, null, stat({ mode: 'dir', size: 4096 }))
-    if (path === '/test') return process.nextTick(cb, null, stat({ mode: 'file', size: 11 }))
-    return process.nextTick(cb, Fuse.ENOENT)
-  }
+    getattr: function (path, cb) {
+        if (path === '/') {
+            return process.nextTick(cb, null, stat({ mode: 'dir', size: 4096 }))
+        }
+        if (path === '/test') {
+            return process.nextTick(cb, null, stat({ mode: 'file', size: 11 }))
+        }
+        return process.nextTick(cb, Fuse.ENOENT)
+    }
 }
 ```
 
-`opts` can be include:
+`options` can be:
 
 ```
-  displayFolder: 'Folder Name', // Add a name/icon to the mount volume on OSX,
-  debug: false,  // Enable detailed tracing of operations.
-  force: false,  // Attempt to unmount a the mountpoint before remounting.
-  mkdir: false   // Create the mountpoint before mounting.
+    displayFolder: 'Folder Name', // Add a name/icon to the mount volume on OSX,
+    debug: false,  // Enable detailed tracing of operations.
+    force: false,  // Attempt to unmount a the mountpoint before remounting.
+    mkdir: false   // Create the mountpoint before mounting.
+    allowOther
+    allowRoot
+    autoUnmount
+    defaultPermissions
+    blkdev
+    blksize
+    maxRead
+    fd
+    userId
+    fsname
+    subtype
+    kernelCache
+    autoCache
+    umask
+    uid
+    gid
+    entryTimeout
+    attrTimeout
+    acAttrTimeout
+    noforget
+    remember
+    modules
+    volname
 ```
 
 Additionally, all (FUSE-specific options)[http://man7.org/linux/man-pages/man8/mount.fuse.8.html] will be passed to the underlying FUSE module (though we use camel casing instead of snake casing).

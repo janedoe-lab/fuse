@@ -123,7 +123,6 @@ declare namespace Fuse {
         noforget?: boolean;
         remember?: number;
         modules?: string;
-        name?: string;
         mnt?: string;
         volname?: string;
     }

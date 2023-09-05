@@ -106,7 +106,7 @@ class Fuse extends Nanoresource {
     _fuseOptions() {
         const options = [];
 
-        if (/\*|(^,)fuse-bindings(,$)/.test(process.env.DEBUG) || this.opts.debug) options.push("debug");
+        if (this.opts.debug) options.push("debug");
         if (this.opts.allowOther) options.push("allow_other");
         if (this.opts.allowRoot) options.push("allow_root");
         if (this.opts.autoUnmount) options.push("auto_unmount");
@@ -130,14 +130,12 @@ class Fuse extends Nanoresource {
         if (this.opts.remember) options.push("remember=" + this.opts.remember);
         if (this.opts.modules) options.push("modules=" + this.opts.modules);
 
-        if (IS_WIN32) {
-            // Specifies a volume label on Windows.
-            if (this.opts.volname) options.push("volname=" + this.opts.volname);
-        }
+        // Windows & OSX only.
+        if (this.opts.volname && (IS_WIN32 || IS_OSX)) options.push("volname=" + this.opts.volname || path.basename(this.mnt));
 
+        // OSX only.
         if (this.opts.displayFolder && IS_OSX) {
-            // only works on osx
-            options.push("volname=" + path.basename(this.opts.name || this.mnt));
+            // TODO: this can be done better.
             if (HAS_FOLDER_ICON) options.push("volicon=" + OSX_FOLDER_ICON);
         }
 
