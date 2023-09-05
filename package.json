@@ -1,41 +1,50 @@
 {
-  "name": "fuse-native",
-  "version": "2.2.6-v9",
-  "description": "Fully maintained fuse bindings for Node that aims to cover the entire FUSE api",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "bin": {
-    "fuse-native": "./bin.js"
-  },
-  "scripts": {
-    "buildgyp": "node-gyp-build",
-    "test": "tape test/*.js",
-    "prebuild": "prebuildify --napi --strip",
-    "prebuild-ia32": "prebuildify --napi --strip --arch=ia32",
-    "configure": "NODE=$(which node) && sudo -E $NODE ./bin.js configure || true"
-  },
-  "gypfile": true,
-  "dependencies": {
-    "fuse-shared-library": "github:refinio/fuse-shared-library.git",
-    "nanoresource": "^1.3.0",
-    "napi-macros": "^2.0.0",
-    "node-gyp-build": "^4.2.0"
-  },
-  "devDependencies": {
-    "@types/node": "^18.11.18",
-    "concat-stream": "^2.0.0",
-    "prebuildify": "^3.0.4",
-    "standard": "^13.1.0",
-    "tape": "^4.12.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fuse-friends/fuse-native.git"
-  },
-  "author": "Mathias Buus (@mafintosh)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/fuse-friends/fuse-native/issues"
-  },
-  "homepage": "https://github.com/fuse-friends/fuse-native"
+    "name": "fuse-native",
+    "version": "2.2.6-v9",
+    "description": "Fuse API bindings for NodeJS that aim to be feature complete and cross-platform (Linux, Windows, MacOSX).",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "bin": {
+        "fuse-native": "./bin.js"
+    },
+    "scripts": {
+        "buildgyp": "node-gyp-build",
+        "test": "tape test/*.js",
+        "prebuild": "prebuildify --napi --strip",
+        "prebuild-ia32": "prebuildify --napi --strip --arch=ia32",
+        "configure": "NODE=$(which node) && sudo -E $NODE ./bin.js configure || true"
+    },
+    "gypfile": true,
+    "dependencies": {
+        "fuse-shared-library": "github:refinio/fuse-shared-library.git",
+        "nanoresource": "^1.3.0",
+        "napi-macros": "^2.0.0",
+        "node-gyp-build": "^4.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.11.18",
+        "concat-stream": "^2.0.0",
+        "prebuildify": "^3.0.4",
+        "prettier": "^3.0.3",
+        "standard": "^13.1.0",
+        "tape": "^4.12.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fuse-friends/fuse-native.git"
+    },
+    "author": "Mathias Buus (@mafintosh)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/fuse-friends/fuse-native/issues"
+    },
+    "homepage": "https://github.com/fuse-friends/fuse-native",
+    "prettier": {
+        "singleQuote": false,
+        "semi": true,
+        "useTabs": false,
+        "tabWidth": 4,
+        "printWidth": 140,
+        "trailingComma": "es5"
+    }
 }
