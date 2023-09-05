@@ -68,7 +68,7 @@ class Fuse extends Nanoresource {
          * "X:\" which causes WinFSP to break, so we avoid it in that case.
          * https://github.com/winfsp/winfsp/issues/58#issuecomment-285487841
          */
-        if (!IS_WIN32 || !mnt.match(/^[a-z]:%/i)) {
+        if (!IS_WIN32 || !mnt.match(/^[a-z]:$/i)) {
             mnt = path.resolve(mnt);
         }
 
