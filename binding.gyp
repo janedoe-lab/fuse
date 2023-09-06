@@ -7,10 +7,10 @@
             "target_name": "fuse",
             "include_dirs": [
                 "<!(node -e \"require('napi-macros')\")",
-                "<!@(node -e \"require('fuse-shared-library/include')\")",
+                "<!@(node -e \"require('@gcas/fuse-shared-library/include')\")",
             ],
             "libraries": [
-                "<!@(node -e \"require('fuse-shared-library/lib')\")",
+                "<!@(node -e \"require('@gcas/fuse-shared-library/lib')\")",
             ],
             'xcode_settings': {
                 'OTHER_CFLAGS': [
@@ -35,15 +35,15 @@
             "dependencies": ["fuse"],
             "copies": [{
                 "destination": "build/Release",
-                "files": ["<!(node -e \"require('fuse-shared-library/lib')\")"],
+                "files": ["<!(node -e \"require('@gcas/fuse-shared-library/lib')\")"],
             }],
             "conditions": [
                 ['OS=="win"', {
                     "copies=": [
                         {"destination": "build/Release", "files": [
                             # expanding a variable to a list here does not seem to work somehow
-                            "<!(node -e \"console.log(require('fuse-shared-library').bin)\")",
-                            "<!(node -e \"console.log(require('fuse-shared-library').pthreads.bin)\")",
+                            "<!(node -e \"console.log(require('@gcas/fuse-shared-library').bin)\")",
+                            "<!(node -e \"console.log(require('@gcas/fuse-shared-library').pthreads.bin)\")",
                         ]}
                     ],
                 }]
