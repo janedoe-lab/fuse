@@ -392,21 +392,15 @@ class Fuse extends Nanoresource {
     }
 
     _op_open(signal, path, flags) {
-        this.ops.open(path, flags, (error, fd) => {
-            return signal(error, fd);
-        });
+        this.ops.open(path, flags, (error, fd) => signal(error, fd));
     }
 
     _op_opendir(signal, path, flags) {
-        this.ops.opendir(path, flags, (error, fd) => {
-            return signal(error, fd);
-        });
+        this.ops.opendir(path, flags, (error, fd) => signal(error, fd));
     }
 
     _op_create(signal, path, mode) {
-        this.ops.create(path, mode, (error, fd) => {
-            return signal(error, fd);
-        });
+        this.ops.create(path, mode, (error, fd) => signal(error, fd));
     }
 
     _op_utimens(signal, path, atimeLow, atimeHigh, mtimeLow, mtimeHigh) {

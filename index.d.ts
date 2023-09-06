@@ -100,6 +100,7 @@ declare namespace Fuse {
         gid?: number;
         debug?: boolean;
         force?: boolean;
+        timeout?: number;
         allowOther?: boolean;
         allowRoot?: boolean;
         autoUnmount?: boolean;
