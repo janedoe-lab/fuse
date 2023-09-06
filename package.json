@@ -29,7 +29,7 @@
         "configure": "NODE=$(which node) && sudo -E $NODE ./bin.js configure || true"
     },
     "dependencies": {
-        "@gcas/fuse-shared-library": "^1.1.1",
+        "@gcas/fuse-shared-library": "^1.1.2",
         "nanoresource": "^1.3.0",
         "napi-macros": "^2.0.0",
         "node-gyp-build": "^4.6.1"
