@@ -74,7 +74,17 @@ const ops = {
     },
 };
 
+// Examples:
+
+// Mount as drive letter on Windows.
+// const fuse = new Fuse("M:", ops, { debug: true, displayFolder: true, volname: "Test Drive" });
+
+// Mount as path on Windows (folder must not exist).
+// const fuse = new Fuse("C:\\Test\\Drive", ops, { debug: true, displayFolder: true, volname: "Test Drive" });
+
+// Mount as path on POSIX systems.
 const fuse = new Fuse("./mnt", ops, { debug: true, displayFolder: true });
+
 fuse.mount((err) => {
     if (err) throw err;
     console.log("filesystem mounted on " + fuse.mnt);

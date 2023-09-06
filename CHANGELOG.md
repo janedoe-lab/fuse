@@ -1,6 +1,15 @@
 # bigfatfile/fuse-native
 
-## 3.0.0 [202?-?-?]
+## 2.3.1 [2023-09-06]
+
+-   Changed `displayFolder: boolean` option (OSX only) to `volicon: string | boolean`.
+-   Removed `mkdir` option completely (align with FUSE).
+-   Reset versioning from `2.3.*`:
+    -   re-simplifies version string but increments over the old `2.2.*` versions;
+    -   no significant updates in origin repos for a while, I need to prepare for more changes.
+-   Added notice about Electron 20+ incompatibility (external buffers no longer supported).
+
+## [2023-09-05]
 
 -   First release based on the amazing following works:
     -   initial package `fuse-friends/fuse-native` by `Mathias Buus (@mafintosh)`;

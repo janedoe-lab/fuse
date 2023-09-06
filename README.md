@@ -22,6 +22,12 @@ npm i fuse-native --save
 
 See `example.js`.
 
+## Caveats
+
+This module will not currently work with Electron versions 20+ (the last version tested to work is `electron@19.1.9`) due to the introduced "memory-cage" security feature which disabled the use of external buffers in native NodeJS modules (see [here](https://github.com/electron/electron/issues/35801)).
+
+> At some point we should probably add support for the new Electron versions by replacing external buffers with new buffers and memory copies.
+
 ## API
 
 In order to create a FUSE mountpoint, you first need to create a `Fuse` object that wraps a set of implemented FUSE syscall handlers:
@@ -50,34 +56,11 @@ Create a new `Fuse` object.
 
 `options` can be:
 
-```
-    displayFolder: 'Folder Name', // Add a name/icon to the mount volume on OSX,
+```ts
     debug: false,  // Enable detailed tracing of operations.
     force: false,  // Attempt to unmount a the mountpoint before remounting.
-    mkdir: false   // Create the mountpoint before mounting.
-    allowOther
-    allowRoot
-    autoUnmount
-    defaultPermissions
-    blkdev
-    blksize
-    maxRead
-    fd
-    userId
-    fsname
-    subtype
-    kernelCache
-    autoCache
-    umask
-    uid
-    gid
-    entryTimeout
-    attrTimeout
-    acAttrTimeout
-    noforget
-    remember
-    modules
-    volname
+    volname: true, // Add icon to the mount volume (only on Windows & OSX).
+    volicon: true, // Add icon to the mount volume (only on OSX).
 ```
 
 Additionally, all (FUSE-specific options)[http://man7.org/linux/man-pages/man8/mount.fuse.8.html] will be passed to the underlying FUSE module (though we use camel casing instead of snake casing).

@@ -10,8 +10,7 @@ const binding = require("node-gyp-build")(__dirname);
 
 const IS_OSX = os.platform() === "darwin";
 const IS_WIN32 = os.platform() === "win32";
-const OSX_FOLDER_ICON = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns";
-const HAS_FOLDER_ICON = IS_OSX && fs.existsSync(OSX_FOLDER_ICON);
+const DEFAULT_OSX_VOLICON = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns";
 const DEFAULT_TIMEOUT = 15 * 1000;
 const TIMEOUT_ERRNO = IS_OSX ? -60 : -110;
 const ENOTCONN = IS_OSX ? -57 : -107;
@@ -78,7 +77,6 @@ class Fuse extends Nanoresource {
         this.timeout = opts.timeout === false ? 0 : opts.timeout || DEFAULT_TIMEOUT;
 
         this._force = !!opts.force;
-        this._mkdir = !!opts.mkdir;
         this._thread = null;
         this._handlers = this._makeHandlerArray();
         this._threads = new Set();
@@ -134,9 +132,11 @@ class Fuse extends Nanoresource {
         if (this.opts.volname && (IS_WIN32 || IS_OSX)) options.push("volname=" + this.opts.volname || path.basename(this.mnt));
 
         // OSX only.
-        if (this.opts.displayFolder && IS_OSX) {
-            // TODO: this can be done better.
-            if (HAS_FOLDER_ICON) options.push("volicon=" + OSX_FOLDER_ICON);
+        if (this.opts.volicon && IS_OSX) {
+            const iconPath = this.opts.volicon === true ? DEFAULT_OSX_VOLICON : this.opts.volicon;
+            if (fs.existsSync(iconPath)) {
+                options.push("volicon=" + DEFAULT_OSX_VOLICON);
+            }
         }
 
         return options.length ? "-o" + options.join(",") : "";
@@ -271,24 +271,8 @@ class Fuse extends Nanoresource {
             }
 
             return fs.stat(self.mnt, (error, stat) => {
-                if (error && error.errno !== -2) {
-                    return cb(error);
-                }
                 if (error) {
-                    if (!self._mkdir) {
-                        return cb(new Error("Mountpoint does not exist"));
-                    }
-                    return fs.mkdir(self.mnt, { recursive: true }, (error) => {
-                        if (error) {
-                            return cb(error);
-                        }
-                        fs.stat(self.mnt, (error, stat) => {
-                            if (error) {
-                                return cb(error);
-                            }
-                            return onexists(stat);
-                        });
-                    });
+                    return cb(error);
                 }
                 if (!stat.isDirectory()) {
                     return cb(new Error("Mountpoint is not a directory"));

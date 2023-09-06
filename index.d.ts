@@ -98,11 +98,8 @@ declare namespace Fuse {
     export interface OPTIONS {
         uid?: number;
         gid?: number;
-        timeout?: number;
-        displayFolder?: string;
         debug?: boolean;
         force?: boolean;
-        mkdir?: boolean;
         allowOther?: boolean;
         allowRoot?: boolean;
         autoUnmount?: boolean;
@@ -123,8 +120,8 @@ declare namespace Fuse {
         noforget?: boolean;
         remember?: number;
         modules?: string;
-        mnt?: string;
         volname?: string;
+        volicon?: string | boolean;
     }
 }
 
