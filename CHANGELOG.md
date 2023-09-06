@@ -1,4 +1,8 @@
-# bigfatfile/fuse-native
+# @gcas/fuse-native
+
+## 2.3.2 [2023-09-06]
+
+-   Changed repo to GCAS org (published to NPM too).
 
 ## 2.3.1 [2023-09-06]
 
