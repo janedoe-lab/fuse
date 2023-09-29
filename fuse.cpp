@@ -38,11 +38,9 @@
 
 static int IS_ARRAY_BUFFER_DETACH_SUPPORTED = 0;
 
-extern "C" {
-
-napi_status napi_detach_arraybuffer(napi_env env, napi_value buf);
-
-}
+// extern "C" {
+// napi_status napi_detach_arraybuffer(napi_env env, napi_value buf);
+// }
 
 #define FUSE_NATIVE_CALLBACK(fn, blk)\
   napi_env env = ft->env;\
