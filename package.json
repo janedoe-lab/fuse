@@ -22,20 +22,18 @@
         "fuse": "./bin.js"
     },
     "scripts": {
-        "buildgyp": "node-gyp-build",
         "test": "tape test/*.js",
-        "prebuild": "prebuildify --napi --strip",
-        "configure": "NODE=$(which node) && sudo -E $NODE ./bin.js configure || true"
+        "configure": "node-gyp configure",
+        "build": "node-gyp rebuild"
     },
     "dependencies": {
         "nanoresource": "^1.3.0",
-        "napi-macros": "^2.0.0",
-        "node-gyp-build": "^4.6.1"
+        "napi-macros": "^2.0.0"
     },
     "devDependencies": {
         "@types/node": "^18.11.18",
+        "bindings": "^1.5.0",
         "concat-stream": "^2.0.0",
-        "prebuildify": "^5.0.1",
         "prettier": "^3.0.3",
         "standard": "^13.1.0",
         "tape": "^4.12.0"

@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const child_process = require("child_process");
 const Nanoresource = require("nanoresource");
-const binding = require("node-gyp-build")(__dirname);
+const binding = require("bindings")("fuse.node");
 
 let platform = os.platform();
 let arch = os.arch();
