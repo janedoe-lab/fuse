@@ -6,7 +6,7 @@
     "targets": [
         {
             "target_name": "fuse",
-            "include_dirs": ["<!(node -e \"require('napi-macros')\")"],
+            "include_dirs": ["<!@(node -e \"require('napi-macros')\")"],
             'cflags': ['-g', '-O3', '-Wall'],
 
             "conditions": [
@@ -31,11 +31,11 @@
 
                 ["OS=='win' and target_arch=='x64'", {
                     "include_dirs+": [
-                        "<!(echo %ProgramFiles(x86)%)/WinFsp/inc/fuse"
+                        "<!@(echo %ProgramFiles(x86)%)/WinFsp/inc/fuse"
                         "<(module_root_dir)/libfuse/win-x64/include",
                     ],
                     "libraries+": [
-                        "<!(echo %ProgramFiles(x86)%)/WinFsp/bin/winfsp-x64.dll",
+                        "<!@(echo %ProgramFiles(x86)%)/WinFsp/bin/winfsp-x64.dll",
                         "<(module_root_dir)/libfuse/win-x64/lib/pthreadVC3.lib"
                     ],
                     "sources+": ["fuse.cpp"]
@@ -74,7 +74,7 @@
                     "copies=": [{
                         "destination": "build/Release",
                         "files": [
-                                "<!(echo %ProgramFiles(x86)%)/WinFsp/bin/winfsp-x64.dll",
+                                "<!@(echo %ProgramFiles(x86)%)/WinFsp/bin/winfsp-x64.dll",
                                 "<(module_root_dir)/libfuse/win-x64/bin/pthreadVC3.dll",
                                 ]
                     }],
