@@ -1,6 +1,4 @@
-# fuse-native
-
-[![Build Status](https://travis-ci.org/fuse-friends/fuse-native.svg?branch=master)](https://travis-ci.org/fuse-friends/fuse-native)
+# @gcas/fuse
 
 Multithreaded FUSE bindings for Node JS.
 

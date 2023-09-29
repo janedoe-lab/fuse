@@ -1,20 +1,34 @@
 #!/usr/bin/env node
 
-import { configure, unconfigure, isConfigured } from "./";
+const Fuse = require("./");
 const cmd = process.argv[2];
 
-if (cmd === "configure") {
-    configure(onerror);
-} else if (cmd === "unconfigure") {
-    unconfigure(onerror);
-} else if (cmd === "is-configured") {
-    isConfigured(function (err, bool) {
-        if (err) return onerror(err);
-        console.log("" + bool);
-        process.exit(bool ? 0 : 1);
-    });
+switch (cmd) {
+    case "configure":
+        Fuse.configure(onError);
+        break;
+
+    case "unconfigure":
+        Fuse.unconfigure(onError);
+        break;
+
+    case "is-configured":
+        Fuse.isConfigured(function (error, bool) {
+            if (error) {
+                return onError(error);
+            }
+            console.log(bool);
+            process.exit(bool ? 0 : 1);
+        });
+        break;
+
+    default:
+        console.log("Expecting command!");
+        break;
 }
 
-function onerror(err) {
-    if (err) throw err;
+function onError(error) {
+    if (error) {
+        throw error;
+    }
 }

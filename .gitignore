@@ -1,22 +1,6 @@
 .idea
 build
 
-# Developer tools' files
-.lite_workspace.lua
-
-# Neutralinojs binaries and builds
-bin
-dist
-/.rollup.cache
-/.tmp
-
-# Neutralinojs client (minified)
-neutralino.js
-
-# Neutralinojs related files
-.storage
-*.log
-
 ### Node ###
 # Logs
 logs

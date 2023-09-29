@@ -1,4 +1,10 @@
-# @gcas/fuse-native
+# @gcas/fuse
+
+## 2.4.0 [2023-09-30]
+
+-   Renamed to `@gcas/fuse`;
+-   Simplified package structure for `libfuse` dependencies (bundled into `@gcas/fuse` package);
+-   Dropped support for `win-x86` (32bit) architecture.
 
 ## 2.3.2 [2023-09-06]
 

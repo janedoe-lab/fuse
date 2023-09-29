@@ -2,50 +2,82 @@
     "variables": {
         "openssl_fips": "",
     },
+
     "targets": [
         {
             "target_name": "fuse",
-            "include_dirs": [
-                "<!(node -e \"require('napi-macros')\")",
-                "<!@(node -e \"require('@gcas/fuse-shared-library/include')\")",
-            ],
-            "libraries": [
-                "<!@(node -e \"require('@gcas/fuse-shared-library/lib')\")",
-            ],
-            'xcode_settings': {
-                'OTHER_CFLAGS': [
-                    '-g',
-                    '-O3',
-                    '-Wall'
-                ]
-            },
-            'cflags': [
-                '-g',
-                '-O3',
-                '-Wall'
-            ],
+            "include_dirs": ["<!(node -e \"require('napi-macros')\")"],
+            'cflags': ['-g', '-O3', '-Wall'],
+
             "conditions": [
-                ['OS!="win"', {"sources": ["fuse-native.c"]}],
-                ['OS=="win"', {"sources": ["fuse-native.cpp"]}],
+                ["OS=='linux' and target_arch=='x64'", {
+                    "include_dirs+": ["<(module_root_dir)/libfuse/linux-x64/include"],
+                    "libraries+": ["<(module_root_dir)/libfuse/linux-x64/lib/libfuse.so"],
+                    "sources+": ["fuse.c"]
+                }],
+
+                ["OS=='linux' and target_arch=='arm'", {
+                    "include_dirs+": ["<(module_root_dir)/libfuse/linux-arm/include"],
+                    "libraries+": ["<(module_root_dir)/libfuse/linux-arm/lib/libfuse.so"],
+                    "sources+": ["fuse.c"]
+                }],
+
+                ["OS=='mac' and target_arch=='x64'", {
+                    "include_dirs+": ["<(module_root_dir)/libfuse/mac-x64/include"],
+                    "libraries+": ["<(module_root_dir)/libfuse/mac-x64/libosxfuse.2.dylib"],
+                    "sources+": ["fuse.c"],
+                    'xcode_settings': {'OTHER_CFLAGS': ['-g', '-O3', '-Wall']},
+                }],
+
+                ["OS=='win' and target_arch=='x64'", {
+                    "include_dirs+": [
+                        "<!(echo %ProgramFiles(x86)%)/WinFsp/inc/fuse"
+                        "<(module_root_dir)/libfuse/win-x64/include",
+                    ],
+                    "libraries+": [
+                        "<!(echo %ProgramFiles(x86)%)/WinFsp/bin/winfsp-x64.dll",
+                        "<(module_root_dir)/libfuse/win-x64/lib/pthreadVC3.lib"
+                    ],
+                    "sources+": ["fuse.cpp"]
+                }],
             ],
         },
+
         {
             "target_name": "postinstall",
             "type": "none",
             "dependencies": ["fuse"],
-            "copies": [{
-                "destination": "build/Release",
-                "files": ["<!(node -e \"require('@gcas/fuse-shared-library/lib')\")"],
-            }],
+
             "conditions": [
-                ['OS=="win"', {
-                    "copies=": [
-                        {"destination": "build/Release", "files": [
-                            # expanding a variable to a list here does not seem to work somehow
-                            "<!(node -e \"console.log(require('@gcas/fuse-shared-library').bin)\")",
-                            "<!(node -e \"console.log(require('@gcas/fuse-shared-library').pthreads.bin)\")",
-                        ]}
-                    ],
+                ["OS=='linux' and target_arch=='x64'", {
+                    "copies=": [{
+                        "destination": "build/Release",
+                        "files": ["<(module_root_dir)/libfuse/linux-x64/lib/libfuse.so"]
+                    }],
+                }],
+
+                ["OS=='linux' and target_arch=='arm'", {
+                    "copies=": [{
+                        "destination": "build/Release",
+                        "files": ["<(module_root_dir)/libfuse/linux-arm/lib/libfuse.so"]
+                    }],
+                }],
+
+                ["OS=='mac' and target_arch=='x64'", {
+                    "copies=": [{
+                        "destination": "build/Release",
+                        "files": ["<(module_root_dir)/libfuse/mac-x64/libosxfuse.2.dylib"]
+                    }],
+                }],
+
+                ["OS=='win' and target_arch=='x64'", {
+                    "copies=": [{
+                        "destination": "build/Release",
+                        "files": [
+                                "<!(echo %ProgramFiles(x86)%)/WinFsp/bin/winfsp-x64.dll",
+                                "<(module_root_dir)/libfuse/win-x64/bin/pthreadVC3.dll",
+                                ]
+                    }],
                 }]
             ],
         }

@@ -1,5 +1,5 @@
 {
-    "name": "@gcas/fuse-native",
+    "name": "@gcas/fuse",
     "version": "2.3.4",
     "description": "Fuse API bindings for NodeJS that aim to be feature complete and cross-platform (Linux, Windows, MacOSX).",
     "author": "Valeriu Paloș (@vpalos)",
@@ -7,29 +7,27 @@
         "Mathias Buus (@mafintosh)"
     ],
     "license": "MIT",
-    "homepage": "https://github.com/gcasro/fuse-native",
+    "homepage": "https://github.com/gcasro/fuse",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/gcasro/fuse-native.git"
+        "url": "git+https://github.com/gcasro/fuse.git"
     },
     "bugs": {
-        "url": "https://github.com/gcasro/fuse-native/issues"
+        "url": "https://github.com/gcasro/fuse/issues"
     },
     "main": "index.js",
     "types": "index.d.ts",
     "gypfile": true,
     "bin": {
-        "fuse-native": "./bin.js"
+        "fuse": "./bin.js"
     },
     "scripts": {
         "buildgyp": "node-gyp-build",
         "test": "tape test/*.js",
         "prebuild": "prebuildify --napi --strip",
-        "prebuild-ia32": "prebuildify --napi --strip --arch=ia32",
         "configure": "NODE=$(which node) && sudo -E $NODE ./bin.js configure || true"
     },
     "dependencies": {
-        "@gcas/fuse-shared-library": "^1.1.2",
         "nanoresource": "^1.3.0",
         "napi-macros": "^2.0.0",
         "node-gyp-build": "^4.6.1"

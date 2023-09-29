@@ -1,12 +1,25 @@
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
-const { exec } = require("child_process");
-
+const child_process = require("child_process");
 const Nanoresource = require("nanoresource");
-const { beforeMount, beforeUnmount, configure, unconfigure, isConfigured } = require("@gcas/fuse-shared-library");
-
 const binding = require("node-gyp-build")(__dirname);
+
+let platform = os.platform();
+let arch = os.arch();
+let target = "";
+switch (platform) {
+    case "linux":
+        target = `linux-${arch}`;
+        break;
+    case "darwin":
+        target = `mac-${arch}`;
+        break;
+    case "win32":
+        target = `win-${arch}`;
+        break;
+}
+const { beforeMount, beforeUnmount, configure, unconfigure, isConfigured } = require(path.join(__dirname, "libfuse", target, "index.js"));
 
 const IS_OSX = os.platform() === "darwin";
 const IS_WIN32 = os.platform() === "win32";
@@ -233,7 +246,7 @@ class Fuse extends Nanoresource {
 
         mnt = JSON.stringify(mnt);
         const cmd = IS_OSX ? `diskutil unmount force ${mnt}` : `fusermount -uz ${mnt}`;
-        exec(cmd, (error) => {
+        child_process.exec(cmd, (error) => {
             if (error) {
                 return cb(error);
             }
