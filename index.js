@@ -19,7 +19,7 @@ switch (platform) {
         target = `win-${arch}`;
         break;
 }
-const { beforeMount, beforeUnmount, configure, unconfigure, isConfigured } = require(path.join(__dirname, "libfuse", target, "index.js"));
+const { beforeMount, beforeUnmount, configure, unconfigure, isConfigured } = require(path.join(__dirname, "lib", target, "index.js"));
 
 const IS_OSX = os.platform() === "darwin";
 const IS_WIN32 = os.platform() === "win32";

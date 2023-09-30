@@ -4,6 +4,7 @@
 
 -   Renamed to `@gcas/fuse`;
 -   Simplified package structure for `libfuse` dependencies (bundled into `@gcas/fuse` package);
+-   Updated tests to work on Windows (tests were broken by the OS read-ahead ops);
 -   Dropped support for `win-x86` (32bit) architecture.
 
 ## 2.3.2 [2023-09-06]
