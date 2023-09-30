@@ -30,7 +30,7 @@ tape("statfs", function (t) {
     const fuse = new Fuse(mnt, ops, { debug: true });
     fuse.mount(function (err) {
         t.error(err, "no error");
-        exec(`df ${mnt}`, (err) => {
+        exec(` ${mnt}`, (err) => {
             t.error(err, "no error");
             unmount(fuse, function () {
                 t.end();

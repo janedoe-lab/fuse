@@ -11,7 +11,7 @@ const mnt = createMountpoint();
 
 tape("read and write big file", function (t) {
     let size = 0;
-    let expectedPos = undefined;
+    let expectedPos = -1;
 
     var ops = {
         force: true,
@@ -38,8 +38,12 @@ tape("read and write big file", function (t) {
             return process.nextTick(cb, 0);
         },
         read(path, fd, buf, len, pos, cb) {
+            if (expectedPos < 0) {
+                return cb(-1);
+            }
             t.same(pos, expectedPos, "read is expected");
-            expectedPos = undefined;
+            expectedPos = -1;
+
             buf.fill(0);
             if (pos + len > size) {
                 return cb(Math.max(size - pos, 0));
@@ -55,11 +59,12 @@ tape("read and write big file", function (t) {
             cb(0);
         },
         write(path, fd, buf, len, pos, cb) {
-            if (expectedPos === "undefined") {
+            if (expectedPos < 0) {
                 return cb(-1);
             }
             t.same(pos, expectedPos, "write is expected");
-            expectedPos = undefined;
+            expectedPos = -1;
+
             size = Math.max(pos + len, size);
             cb(len);
         },
@@ -108,9 +113,9 @@ tape("read and write big file", function (t) {
     );
 
     function expectPos(n) {
-        return (_, cb) => {
+        return function (_, cb) {
             expectedPos = n;
-            process.nextTick(cb);
+            cb();
         };
     }
 
