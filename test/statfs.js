@@ -1,3 +1,4 @@
+const fs = require("fs");
 const { exec } = require("child_process");
 const { unmount } = require("./helpers");
 const tape = require("tape");
@@ -30,7 +31,7 @@ tape("statfs", function (t) {
     const fuse = new Fuse(mnt, ops, { debug: true });
     fuse.mount(function (err) {
         t.error(err, "no error");
-        exec(` ${mnt}`, (err) => {
+        fs.stat(mnt, {}, (err, stats) => {
             t.error(err, "no error");
             unmount(fuse, function () {
                 t.end();
