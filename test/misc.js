@@ -84,6 +84,9 @@ tape("mounting twice without force fails", function (t) {
         fuse2.mount(function (err) {
             t.true(err, "cannot mount over existing mountpoint");
             unmount(fuse1, function () {
+                // FIXME: On Windows, although the test succeeds,
+                // it prevents the FUSE loop from stopping after
+                // unmounting all FS's.
                 t.end();
             });
         });
