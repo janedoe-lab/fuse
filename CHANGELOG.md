@@ -1,5 +1,9 @@
 # @gcas/fuse
 
+## 2.4.1
+
+-   Made `napi-macros` a regular dependency (fix).
+
 ## 2.4.0 [2023-09-30]
 
 -   Renamed to `@gcas/fuse`;
