@@ -1,6 +1,6 @@
 {
     "name": "@gcas/fuse",
-    "version": "2.3.4",
+    "version": "2.4.0",
     "description": "Fuse API bindings for NodeJS that aim to be feature complete and cross-platform (Linux, Windows, MacOSX).",
     "author": "Valeriu Paloș (@vpalos)",
     "contributors": [
