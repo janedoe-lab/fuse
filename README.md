@@ -16,7 +16,11 @@ Multithreaded FUSE bindings for Node JS.
 ## Installation
 
 ```
-npm i fuse-native --save
+# Using NPM
+npm i @gcas/fuse --save
+
+# Using Yarn
+yarn add @gcas/fuse
 ```
 
 ## Example
@@ -25,9 +29,9 @@ See `example.js`.
 
 ## Caveats
 
-This module will not currently work with Electron versions 20+ (the last version tested to work is `electron@19.1.9`) due to the introduced "memory-cage" security feature which disabled the use of external buffers in native NodeJS modules (see [here](https://github.com/electron/electron/issues/35801)).
+This module will not currently work with Electron versions 20+ (the last version tested to work is `electron@19.1.9`) due to the introduced "memory-cage" security feature which disallowed the use of external buffers in native NodeJS modules (see [here](https://github.com/electron/electron/issues/35801)).
 
-> At some point we should probably add support for the new Electron versions by replacing external buffers with new buffers and memory copies.
+> At some point this might be addressed by either pre-allocating buffers from Node (this requires some research on my part) or via additional memory-copy operations (I don't favor this option since it implies some performance degradation).
 
 ## API
 

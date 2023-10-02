@@ -1,5 +1,9 @@
 # @gcas/fuse
 
+## 2.4.2
+
+-   Now requires NodeJS version 18.15.0+ (to support `fs.statfs()`).
+
 ## 2.4.1
 
 -   Made `napi-macros` a regular dependency (fix).

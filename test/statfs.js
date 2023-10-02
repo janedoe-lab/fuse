@@ -7,32 +7,35 @@ const Fuse = require("../");
 const createMountpoint = require("./fixtures/mnt");
 const stat = require("./fixtures/stat");
 
-const mnt = createMountpoint();
+const mnt = "k:"; // createMountpoint();
 
 tape("statfs", function (t) {
     const ops = {
         force: true,
         statfs: function (path, cb) {
             return cb(0, {
-                bsize: 1000000,
-                frsize: 1000000,
-                blocks: 1000000,
-                bfree: 1000000,
-                bavail: 1000000,
-                files: 1000000,
-                ffree: 1000000,
-                favail: 1000000,
-                fsid: 1000000,
-                flag: 1000000,
-                namemax: 1000000,
+                bsize: 1000,
+                frsize: 1000,
+                blocks: 2000,
+                bfree: 1000,
+                bavail: 1000,
+                files: 1000,
+                ffree: 1000,
+                favail: 1000,
+                fsid: 1000,
+                flag: 1000,
+                namemax: 1000,
             });
         },
     };
     const fuse = new Fuse(mnt, ops, { debug: true });
     fuse.mount(function (err) {
         t.error(err, "no error");
-        fs.stat(mnt, {}, (err, stats) => {
+        fs.statfs(mnt, {}, (err, stats) => {
             t.error(err, "no error");
+            t.equals(stats.blocks * stats.bsize, 1000 * 2000, "correct total device capacity returned");
+            t.equals(stats.bfree * stats.bsize, 1000 * 1000, "correct free device capacity returned");
+            t.equals(stats.bavail * stats.bsize, 1000 * 1000, "correct available device capacity returned");
             unmount(fuse, function () {
                 t.end();
             });
