@@ -2,6 +2,9 @@
 
 Multithreaded FUSE bindings for Node JS.
 
+> Based on the great work from [fuse-native](https://www.npmjs.com/package/fuse-native).
+> I needed this package with some significant changes (see `CHANGELOG.md`) so I decided to fork.
+
 ## Features
 
 -   N-API support means we ship prebuilds and in general works on new Node.js releases.
