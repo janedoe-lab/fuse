@@ -1,4 +1,4 @@
-declare module "fuse" {
+declare module "@gcas/fuse" {
     // Stats object produced by fuse index.js function getStatArray
 
     export interface Stats {
